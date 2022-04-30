@@ -25,7 +25,7 @@ func CreatConnectionTodb() {
 
 	}
 
-	fmt.Println("successful connection to Database")
+	log.Println("successful connection to Database")
 
 }
 
@@ -52,8 +52,7 @@ func InsertUser(student entity.Student) int64 {
 		fmt.Println("rows not inserted", err)
 		return 0
 	}
-	defer db.Close()
-	fmt.Printf("rows inserted,%v\n", rows)
+	log.Printf("rows inserted,%v\n", rows)
 	return rows
 
 }
@@ -62,13 +61,13 @@ func InsertUser(student entity.Student) int64 {
 
 func UpdateUserById(student entity.Student) int64 {
 	CreatConnectionTodb()
-	updateRes, err := db.Prepare("update student set firstname=? where id=?")
+	updateRes, err := db.Prepare("update student set firstname=? and lastname=? where id=?")
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// execute
-	res, err := updateRes.Exec(student.Firstname, student.Lastname, student.Id)
+	res, err := updateRes.Exec(student.Id, student.Firstname, student.Lastname)
 	if err != nil {
 		fmt.Println(err, res)
 	}
@@ -84,6 +83,7 @@ func UpdateUserById(student entity.Student) int64 {
 
 }
 
+// shows all data
 func SelectData() []entity.Student {
 
 	CreatConnectionTodb()
@@ -106,6 +106,7 @@ func SelectData() []entity.Student {
 	return student1
 }
 
+// get data by id
 func SelectDataByID(id int) []entity.Student {
 
 	CreatConnectionTodb()
@@ -131,6 +132,7 @@ func SelectDataByID(id int) []entity.Student {
 
 }
 
+// delete by id
 func DeleteDataByID(id int) []entity.Student {
 
 	CreatConnectionTodb()
