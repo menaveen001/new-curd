@@ -3,10 +3,13 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"example.com/m/entity"
 )
+
+//make connection to db
 
 var db *sql.DB
 
@@ -19,13 +22,14 @@ func CreatConnectionTodb() {
 	if err != nil {
 
 		fmt.Println("error validating sql.Open argument")
-		//panic(err.Error())
-		//	return nil
+
 	}
 
-	fmt.Println("successful connection to Database")
-	//return db
+	log.Println("successful connection to Database")
+
 }
+
+//insert data into db
 
 func InsertUser(student entity.Student) int64 {
 	CreatConnectionTodb()
@@ -34,6 +38,9 @@ func InsertUser(student entity.Student) int64 {
 		fmt.Println(err)
 		return 0
 	}
+
+	//execute
+
 	res, err := insForm.Exec(student.Firstname, student.Lastname, student.Id)
 	if err != nil {
 		fmt.Println("query not executed", err)
@@ -45,20 +52,22 @@ func InsertUser(student entity.Student) int64 {
 		fmt.Println("rows not inserted", err)
 		return 0
 	}
-	defer db.Close()
-	fmt.Printf("rows inserted,%v\n", rows)
+	log.Printf("rows inserted,%v\n", rows)
 	return rows
 
 }
-func UpdateUser(student entity.Student) {
+
+// updateUser by id
+
+func UpdateUserById(student entity.Student) int64 {
 	CreatConnectionTodb()
-	updateRes, err := db.Prepare("update student set firstname=? where id=?")
+	updateRes, err := db.Prepare("update student set firstname=? and lastname=? where id=?")
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// execute
-	res, err := updateRes.Exec(student.Firstname, student.Id)
+	res, err := updateRes.Exec(student.Id, student.Firstname, student.Lastname)
 	if err != nil {
 		fmt.Println(err, res)
 	}
@@ -69,5 +78,82 @@ func UpdateUser(student entity.Student) {
 	}
 
 	fmt.Printf("data is updated ,%v\n", a)
+	log.Println(a)
+	return 0
+
+}
+
+// shows all data
+func SelectData() []entity.Student {
+
+	CreatConnectionTodb()
+	var student1 []entity.Student
+	queryRes, err := db.Query("SELECT * FROM student")
+	if err != nil {
+		fmt.Println(err, queryRes)
+	}
+	for queryRes.Next() {
+
+		var student entity.Student
+		err := queryRes.Scan(&student.Id, &student.Firstname, &student.Lastname)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		student1 = append(student1, student)
+	}
+	log.Println(student1)
+	return student1
+}
+
+// get data by id
+func SelectDataByID(id int) []entity.Student {
+
+	CreatConnectionTodb()
+	var student1 []entity.Student
+	queryRes, err := db.Query("SELECT *FROM student WHERE id =?", id)
+	if err != nil {
+		fmt.Println(err, queryRes)
+	}
+
+	if queryRes.Next() {
+		var student entity.Student
+		err := queryRes.Scan(&student.Id, &student.Firstname, &student.Lastname)
+		if err != nil {
+			log.Println(err)
+
+		}
+		student1 = append(student1, student)
+
+	}
+
+	log.Println(student1)
+	return student1
+
+}
+
+// delete by id
+func DeleteDataByID(id int) []entity.Student {
+
+	CreatConnectionTodb()
+	var student1 []entity.Student
+	queryRes, err := db.Query("delete from student where id = ?", id)
+	if err != nil {
+		fmt.Println(err, queryRes)
+	}
+
+	if queryRes.Next() {
+		var student entity.Student
+		err := queryRes.Scan(&student.Id, &student.Firstname, &student.Lastname)
+		if err != nil {
+			log.Println(err)
+
+		}
+		student1 = append(student1, student)
+
+	}
+
+	log.Println(student1)
+	return student1
 
 }
