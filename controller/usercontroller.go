@@ -62,13 +62,13 @@ func UpdateById(c *gin.Context) {
 
 	var student entity.Student
 
-	id := c.Param("id")
-	// c.BindJSON(&student)
-	nid, err := strconv.Atoi(id)
-	if err != nil {
-		log.Println(err, nid)
+	// id := c.Param("id")
+	// // c.BindJSON(&student)
+	// nid, err := strconv.Atoi(id)
+	// if err != nil {
+	// 	log.Println(err, nid)
 
-	}
+	// }
 	if err := c.BindJSON(&student); err != nil {
 		log.Printf("Invalid Request JSON %v", err)
 	}
