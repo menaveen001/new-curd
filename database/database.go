@@ -61,19 +61,19 @@ func InsertUser(student entity.Student) int64 {
 
 func UpdateUserById(student entity.Student) int64 {
 	CreatConnectionTodb()
-	updateRes, err := db.Prepare("update student set firstname=? and lastname=? where id=?")
+	updateRes, err := db.Prepare("update student set firstname = ?, lastname =? where id = ?")
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// execute
-	res, err := updateRes.Exec(student.Id, student.Firstname, student.Lastname)
+	res, err := updateRes.Exec(student.Firstname, student.Lastname, student.Id)
 	if err != nil {
 		fmt.Println(err, res)
 	}
 	a, err := res.RowsAffected()
 	if err != nil {
-		fmt.Println("data is not updated", err)
+		fmt.Println("data is not updated", err, a)
 
 	}
 

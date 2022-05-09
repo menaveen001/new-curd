@@ -12,7 +12,7 @@ func InitRouter() {
 	router.POST("/user", controller.InsertUser)
 	router.GET("/user", controller.GetAllUser)
 	router.GET("/user/:id", controller.GetDataByID)
-	router.POST("/user/:id", controller.UpdateById)
+	router.POST("/user/update", controller.UpdateById)
 	router.DELETE("/:id", controller.DeleteByID)
 	http.ListenAndServe(":3777", router)
 
