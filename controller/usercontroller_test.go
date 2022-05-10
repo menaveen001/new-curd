@@ -1,10 +1,12 @@
 package controller
 
-// func TestInsertUser(t *testing.T) {
-// 	got := InsertUser()
-// 	want := result
+import "testing"
 
-// 	if got != want {
-// 		t.Errorf("got %q want %q", got, want)
-// 	}
-// }
+func TestInsertUser(t *testing.T) {
+	got := result
+	want := student
+
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
+}
