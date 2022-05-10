@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"example.com/m/router"
+	"crudapp/router"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
