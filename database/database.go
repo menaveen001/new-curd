@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"example.com/m/entity"
+	"crudapp/entity"
 )
 
 //make connection to db

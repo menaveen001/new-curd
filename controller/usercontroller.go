@@ -4,8 +4,8 @@ import (
 	"log"
 	"strconv"
 
-	"example.com/m/database"
-	"example.com/m/entity"
+	"crudapp/database"
+	"crudapp/entity"
 	"github.com/gin-gonic/gin"
 )
 
