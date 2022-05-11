@@ -1,5 +1,12 @@
 package middleware
 
+import (
+	"crudapp/auth"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
 func TokenAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := auth.TokenValid(c.Request)
